@@ -45,7 +45,7 @@ describe("FOXWANA rules", () => {
   });
   it("missing liquidity sweep forces WAIT in CRT mode", () => {
     const a = base();
-    a.checks[1].status = "unverified";
+    a.checks[1]!.status = "unverified";
     expect(evaluate(a, "crt").decision).toBe("WAIT");
   });
   it("stop inside CRT range forces WAIT", () => {
