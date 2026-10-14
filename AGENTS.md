@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- FOXWANA logic: AI (src/lib/ai, scan.functions.ts) only reports observations; the pure rule engine in src/lib/foxwana/rules.ts decides BUY/SELL/WAIT — keeps decisions testable and provider-independent.
+- History/settings live in browser localStorage (thumbnails only, no full images) — no auth backend in v1.
