@@ -14,7 +14,270 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ea_commands: {
+        Row: {
+          applied_at: string | null
+          created_at: string
+          delivered_at: string | null
+          id: string
+          kind: string
+          payload: Json | null
+          status: string
+        }
+        Insert: {
+          applied_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          id?: string
+          kind: string
+          payload?: Json | null
+          status?: string
+        }
+        Update: {
+          applied_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          id?: string
+          kind?: string
+          payload?: Json | null
+          status?: string
+        }
+        Relationships: []
+      }
+      ea_logs: {
+        Row: {
+          context: Json | null
+          created_at: string
+          id: string
+          level: string
+          message: string
+          source: string
+        }
+        Insert: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          level?: string
+          message: string
+          source?: string
+        }
+        Update: {
+          context?: Json | null
+          created_at?: string
+          id?: string
+          level?: string
+          message?: string
+          source?: string
+        }
+        Relationships: []
+      }
+      ea_positions: {
+        Row: {
+          break_even: boolean
+          direction: string
+          entry_price: number
+          floating_pl: number | null
+          id: string
+          lots: number
+          opened_at: string
+          stop_loss: number | null
+          strategy: string
+          symbol: string
+          take_profit: number | null
+          ticket: string
+        }
+        Insert: {
+          break_even?: boolean
+          direction: string
+          entry_price: number
+          floating_pl?: number | null
+          id?: string
+          lots: number
+          opened_at: string
+          stop_loss?: number | null
+          strategy: string
+          symbol: string
+          take_profit?: number | null
+          ticket: string
+        }
+        Update: {
+          break_even?: boolean
+          direction?: string
+          entry_price?: number
+          floating_pl?: number | null
+          id?: string
+          lots?: number
+          opened_at?: string
+          stop_loss?: number | null
+          strategy?: string
+          symbol?: string
+          take_profit?: number | null
+          ticket?: string
+        }
+        Relationships: []
+      }
+      ea_settings: {
+        Row: {
+          be_coverage_percent: number
+          daily_reset_time: string
+          entry_models: Json
+          hard_max_risk_percent: number
+          id: number
+          max_daily_losses: number
+          max_open_trades: number
+          prop_dd_daily_limit: number
+          prop_risk_fraction: number
+          real_risk_percent: number
+          risk_mode: string
+          sessions: Json
+          target_mode: string
+          updated_at: string
+        }
+        Insert: {
+          be_coverage_percent?: number
+          daily_reset_time?: string
+          entry_models?: Json
+          hard_max_risk_percent?: number
+          id?: number
+          max_daily_losses?: number
+          max_open_trades?: number
+          prop_dd_daily_limit?: number
+          prop_risk_fraction?: number
+          real_risk_percent?: number
+          risk_mode?: string
+          sessions?: Json
+          target_mode?: string
+          updated_at?: string
+        }
+        Update: {
+          be_coverage_percent?: number
+          daily_reset_time?: string
+          entry_models?: Json
+          hard_max_risk_percent?: number
+          id?: number
+          max_daily_losses?: number
+          max_open_trades?: number
+          prop_dd_daily_limit?: number
+          prop_risk_fraction?: number
+          real_risk_percent?: number
+          risk_mode?: string
+          sessions?: Json
+          target_mode?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ea_state: {
+        Row: {
+          account_login: string | null
+          account_type: string
+          balance: number | null
+          daily_pl: number | null
+          daily_pl_date: string | null
+          emergency_stop: boolean
+          equity: number | null
+          error_message: string | null
+          floating_pl: number | null
+          id: number
+          last_heartbeat: string | null
+          market: string
+          mode: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          account_login?: string | null
+          account_type?: string
+          balance?: number | null
+          daily_pl?: number | null
+          daily_pl_date?: string | null
+          emergency_stop?: boolean
+          equity?: number | null
+          error_message?: string | null
+          floating_pl?: number | null
+          id?: number
+          last_heartbeat?: string | null
+          market?: string
+          mode?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          account_login?: string | null
+          account_type?: string
+          balance?: number | null
+          daily_pl?: number | null
+          daily_pl_date?: string | null
+          emergency_stop?: boolean
+          equity?: number | null
+          error_message?: string | null
+          floating_pl?: number | null
+          id?: number
+          last_heartbeat?: string | null
+          market?: string
+          mode?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ea_trades: {
+        Row: {
+          closed_at: string | null
+          created_at: string
+          direction: string
+          entry_price: number
+          exit_price: number | null
+          id: string
+          lots: number
+          opened_at: string
+          pnl: number | null
+          reason: string | null
+          result: string | null
+          stop_loss: number | null
+          strategy: string
+          symbol: string
+          take_profit: number | null
+          ticket: string
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string
+          direction: string
+          entry_price: number
+          exit_price?: number | null
+          id?: string
+          lots: number
+          opened_at: string
+          pnl?: number | null
+          reason?: string | null
+          result?: string | null
+          stop_loss?: number | null
+          strategy: string
+          symbol: string
+          take_profit?: number | null
+          ticket: string
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string
+          direction?: string
+          entry_price?: number
+          exit_price?: number | null
+          id?: string
+          lots?: number
+          opened_at?: string
+          pnl?: number | null
+          reason?: string | null
+          result?: string | null
+          stop_loss?: number | null
+          strategy?: string
+          symbol?: string
+          take_profit?: number | null
+          ticket?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
