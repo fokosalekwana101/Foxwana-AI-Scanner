@@ -95,31 +95,55 @@ export const getSnapshot = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async (): Promise<Snapshot | null> => {
     const db = await admin();
-    const [state, settings, positions, trades, logs] = await Promise.all([
+    const [stateRes, settingsRes, posRes, tradeRes, logRes] = await Promise.all([
       db.from("ea_state").select("*").eq("id", 1).maybeSingle(),
       db.from("ea_settings").select("*").eq("id", 1).maybeSingle(),
       db.from("ea_positions").select("*").order("opened_at", { ascending: true }),
       db.from("ea_trades").select("*").order("closed_at", { ascending: false, nullsFirst: false }).limit(30),
       db.from("ea_logs").select("*").order("created_at", { ascending: false }).limit(40),
     ]);
-    if (!state || !settings) return null;
-    return { state, settings, positions, trades, logs };
+    if (stateRes.error || settingsRes.error || posRes.error || tradeRes.error || logRes.error) {
+      console.error("EA snapshot query failed", { stateRes: stateRes.error, settingsRes: settingsRes.error, posRes: posRes.error, tradeRes: tradeRes.error, logRes: logRes.error });
+      return null;
+    }
+    if (!stateRes.data || !settingsRes.data) return null;
+    const state = stateRes.data as unknown as EaState;
+    const settings = {
+      ...(settingsRes.data as unknown as EaSettings),
+      sessions: (settingsRes.data.sessions ?? []) as unknown as EaSettings["sessions"],
+      entry_models: settingsRes.data.entry_models as unknown as EaSettings["entry_models"],
+    };
+    return {
+      state,
+      settings,
+      positions: (posRes.data ?? []) as unknown as EaPosition[],
+      trades: (tradeRes.data ?? []) as unknown as EaTrade[],
+      logs: (logRes.data ?? []) as unknown as EaLog[],
+    };
   });
 
 export const getLogs = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async (): Promise<EaLog[]> => {
     const db = await admin();
-    const { data } = await db.from("ea_logs").select("*").order("created_at", { ascending: false }).limit(200);
-    return data ?? [];
+    const { data, error } = await db.from("ea_logs").select("*").order("created_at", { ascending: false }).limit(200);
+    if (error) {
+      console.error("EA logs query failed", error);
+      return [];
+    }
+    return (data ?? []) as unknown as EaLog[];
   });
 
 export const getTrades = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async (): Promise<EaTrade[]> => {
     const db = await admin();
-    const { data } = await db.from("ea_trades").select("*").order("closed_at", { ascending: false, nullsFirst: false }).limit(200);
-    return data ?? [];
+    const { data, error } = await db.from("ea_trades").select("*").order("closed_at", { ascending: false, nullsFirst: false }).limit(200);
+    if (error) {
+      console.error("EA trades query failed", error);
+      return [];
+    }
+    return (data ?? []) as unknown as EaTrade[];
   });
 
 const settingsInput = z.object({
