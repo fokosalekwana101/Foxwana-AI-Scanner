@@ -1,6 +1,8 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getSnapshot } from "@/lib/ea/dashboard.functions";
+import { getSnapshot, type Snapshot } from "@/lib/ea/dashboard.functions";
 
 export const Route = createFileRoute("/dashboard")({
   ssr: false,
@@ -8,7 +10,6 @@ export const Route = createFileRoute("/dashboard")({
     const { data } = await supabase.auth.getUser();
     if (!data.user) throw redirect({ to: "/auth" });
   },
-  loader: () => getSnapshot(),
   head: () => ({
     meta: [
       { title: "Dashboard — FOXWANA EA" },
@@ -23,7 +24,22 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardPage() {
-  const snapshot = Route.useLoaderData();
+  const fetchSnapshot = useServerFn(getSnapshot);
+  const [snapshot, setSnapshot] = useState<Snapshot | null | undefined>(undefined);
+  const [loadError, setLoadError] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void fetchSnapshot().then((result) => {
+      if (active) setSnapshot(result);
+    }).catch(() => {
+      if (active) {
+        setSnapshot(null);
+        setLoadError(true);
+      }
+    });
+    return () => { active = false; };
+  }, [fetchSnapshot]);
 
   return (
     <main className="min-h-screen px-4 py-6">
@@ -36,9 +52,14 @@ function DashboardPage() {
           <Link to="/" className="rounded-md border px-3 py-2 text-sm hover:bg-secondary">Chart scanner</Link>
         </header>
 
-        {!snapshot ? (
+        {snapshot === undefined ? (
           <section className="panel p-5" aria-live="polite">
-            <h2 className="font-semibold">Bridge data unavailable</h2>
+            <h2 className="font-semibold">Loading account status</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Waiting for a verified update from the EA bridge.</p>
+          </section>
+        ) : !snapshot ? (
+          <section className="panel p-5" aria-live="polite">
+            <h2 className="font-semibold">{loadError ? "Dashboard data unavailable" : "Bridge data unavailable"}</h2>
             <p className="mt-2 text-sm text-muted-foreground">No account status is being assumed. Check the EA bridge connection and try again.</p>
           </section>
         ) : (
