@@ -2,7 +2,6 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import logo from "@/assets/foxwana-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -92,7 +91,7 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="mb-6 flex flex-col items-center gap-3 text-center">
-          <img src={logo.url} alt="FOXWANA EA" className="h-16 w-16" />
+          <img src="/favicon.ico" alt="FOXWANA EA" className="h-16 w-16" />
           <div>
             <h1 className="text-xl font-bold tracking-tight">FOXWANA EA</h1>
             <p className="text-sm text-muted-foreground">Your private MT5 trading dashboard</p>
