@@ -3,7 +3,7 @@
 Spec: `user-uploads://FOXWANA_EA_-_Dashboard_and_MT5_Integration_pasted.md` (dashboard + MT5 integration, small stages, preserve CRT scanner).
 
 ## Stage 1 — Dashboard + integration foundation (current)
-- [ ] Resolve duplicate root route and fix auth redirect targets
+- [x] Resolve duplicate root route and fix auth redirect targets
 - [x] Lovable Cloud enabled, email/password auth enabled
 - [x] Database: ea_state, ea_settings, ea_positions, ea_trades, ea_logs, ea_commands
 - [x] Auth pages (/auth sign-in/up, /reset-password) + protected route layout

@@ -9,6 +9,8 @@ export const Route = createFileRoute("/reset-password")({
     meta: [
       { title: "Reset password — FOXWANA EA" },
       { name: "description", content: "Set a new password for your FOXWANA EA account." },
+      { property: "og:title", content: "Reset password — FOXWANA EA" },
+      { property: "og:description", content: "Set a new password for your FOXWANA EA account." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

@@ -11,3 +11,4 @@
 
 - FOXWANA logic: AI (src/lib/ai, scan.functions.ts) only reports observations; the pure rule engine in src/lib/foxwana/rules.ts decides BUY/SELL/WAIT — keeps decisions testable and provider-independent.
 - History/settings live in browser localStorage (thumbnails only, no full images) — no auth backend in v1.
+- Keep the public scanner at `/`; authenticate named private pages at their leaf routes to avoid a root-path collision with a pathless auth layout.

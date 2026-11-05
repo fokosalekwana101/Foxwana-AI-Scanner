@@ -14,4 +14,13 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("matches the dashboard, sign-in, and password-reset pages", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    for (const path of ["/dashboard", "/auth", "/reset-password"]) {
+      const matches = router.matchRoutes(path);
+      expect(matches.at(-1)?.routeId, `${path} should resolve to a page`).not.toBe(rootRouteId);
+    }
+  });
 });
